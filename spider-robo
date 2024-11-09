@@ -1,0 +1,125 @@
+#include <Servo.h>
+
+// Инициализация сервоприводов
+Servo servo1; // Лапа 1
+Servo servo2;
+Servo servo3; // Лапа 2
+Servo servo4;
+Servo servo5; // Лапа 3
+Servo servo6;
+Servo servo7; // Лапа 4
+Servo servo8;
+
+// Подключение сервоприводов к пинам NodeMCU
+void setup() {
+  servo1.attach(D1);
+  servo2.attach(D2);
+  servo3.attach(D3);
+  servo4.attach(D4);
+  servo5.attach(D5);
+  servo6.attach(D6);
+  servo7.attach(D7);
+  servo8.attach(D8);
+}
+
+// Функция для движения вперед
+void moveForward() {
+  servo1.write(45);
+  servo2.write(135);
+  servo3.write(45);
+  servo4.write(135);
+  servo5.write(45);
+  servo6.write(135);
+  servo7.write(45);
+  servo8.write(135);
+  delay(500); // Ожидание, чтобы завершить движение
+
+  servo1.write(135);
+  servo2.write(45);
+  servo3.write(135);
+  servo4.write(45);
+  servo5.write(135);
+  servo6.write(45);
+  servo7.write(135);
+  servo8.write(45);
+  delay(500);
+}
+
+// Функция для движения назад
+void moveBackward() {
+  servo1.write(135);
+  servo2.write(45);
+  servo3.write(135);
+  servo4.write(45);
+  servo5.write(135);
+  servo6.write(45);
+  servo7.write(135);
+  servo8.write(45);
+  delay(500);
+
+  servo1.write(45);
+  servo2.write(135);
+  servo3.write(45);
+  servo4.write(135);
+  servo5.write(45);
+  servo6.write(135);
+  servo7.write(45);
+  servo8.write(135);
+  delay(500);
+}
+
+// Функция для поворота направо
+void turnRight() {
+  servo1.write(135);
+  servo2.write(135);
+  servo3.write(45);
+  servo4.write(45);
+  servo5.write(135);
+  servo6.write(135);
+  servo7.write(45);
+  servo8.write(45);
+  delay(500);
+}
+
+// Функция для поворота налево
+void turnLeft() {
+  servo1.write(45);
+  servo2.write(45);
+  servo3.write(135);
+  servo4.write(135);
+  servo5.write(45);
+  servo6.write(45);
+  servo7.write(135);
+  servo8.write(135);
+  delay(500);
+}
+
+// Функция для установки позы
+void setPose() {
+  servo1.write(90);
+  servo2.write(90);
+  servo3.write(90);
+  servo4.write(90);
+  servo5.write(90);
+  servo6.write(90);
+  servo7.write(90);
+  servo8.write(90);
+}
+
+// Основной цикл программы
+void loop() {
+  moveForward();
+  delay(1000);
+
+  moveBackward();
+  delay(1000);
+
+  turnRight();
+  delay(1000);
+
+  turnLeft();
+  delay(1000);
+
+  setPose();
+  delay(2000);
+}
