@@ -1,0 +1,169 @@
+#define REMOTEXY_MODE__WIFI_POINT
+
+#include <WiFi.h>
+
+// RemoteXY настройки подключения ///////////////////////
+#define REMOTEXY_WIFI_SSID "RemoteXY"
+#define REMOTEXY_WIFI_PASSWORD "12345678"
+#define REMOTEXY_SERVER_PORT 6377
+
+#include <RemoteXY.h>
+
+// RemoteXY GUI изображения интерфейса  
+#pragma pack(push, 1)  
+uint8_t RemoteXY_CONF[] =   // 119 bytes
+  { 255,5,0,0,0,112,0,19,0,0,0,0,31,1,106,200,1,1,5,0,
+  1,41,98,24,24,0,2,31,208,146,208,191,208,181,209,128,208,181,208,180,
+  0,1,42,163,24,24,0,2,31,208,157,208,176,208,183,208,176,208,180,0,
+  1,42,131,24,24,0,2,31,208,159,208,190,208,183,208,176,0,1,74,132,
+  24,24,0,2,31,208,146,208,191,209,128,208,176,208,178,208,190,0,1,7,
+  132,24,24,0,2,31,208,157,208,176,208,187,208,181,208,178,208,190,0 };
+  
+// Структура переменных для получения сигнала. 
+struct {
+
+    // Входные переменные
+  uint8_t moveForward; // = Если 1 то кнопка нажата, иначе 0
+  uint8_t moveBackward; // = Если 1 то кнопка нажата, иначе 0
+  uint8_t setPose; // = Если 1 то кнопка нажата, иначе 0
+  uint8_t turnRight; // = Если 1 то кнопка нажата, иначе 0
+  uint8_t turnLeft; // = Если 1 то кнопка нажата, иначе 0
+
+    // other variable
+  uint8_t connect_flag;  // =1 if wire connected, else =0
+
+} RemoteXY;   
+#pragma pack(pop)
+
+#include <Servo.h>
+// Инициализация сервоприводов
+Servo servo1; // Лапа 1
+Servo servo2;
+Servo servo3; // Лапа 2
+Servo servo4;
+Servo servo5; // Лапа 3
+Servo servo6;
+Servo servo7; // Лапа 4
+Servo servo8;
+
+// Подключение сервоприводов к пинам NodeMCU
+void setup() {
+  RemoteXY_Init (); 
+  
+  servo1.attach(D1);
+  servo2.attach(D2);
+  servo3.attach(D3);
+  servo4.attach(D4);
+  servo5.attach(D5);
+  servo6.attach(D6);
+  servo7.attach(D7);
+  servo8.attach(D8);
+}
+
+// Функция для движения вперед
+void moveForward() {
+  servo1.write(45);
+  servo2.write(135);
+  servo3.write(45);
+  servo4.write(135);
+  servo5.write(45);
+  servo6.write(135);
+  servo7.write(45);
+  servo8.write(135);
+  delay(500); // Ожидание, чтобы завершить движение
+
+  servo1.write(135);
+  servo2.write(45);
+  servo3.write(135);
+  servo4.write(45);
+  servo5.write(135);
+  servo6.write(45);
+  servo7.write(135);
+  servo8.write(45);
+  delay(500);
+}
+
+// Функция для движения назад
+void moveBackward() {
+  servo1.write(135);
+  servo2.write(45);
+  servo3.write(135);
+  servo4.write(45);
+  servo5.write(135);
+  servo6.write(45);
+  servo7.write(135);
+  servo8.write(45);
+  delay(500);
+
+  servo1.write(45);
+  servo2.write(135);
+  servo3.write(45);
+  servo4.write(135);
+  servo5.write(45);
+  servo6.write(135);
+  servo7.write(45);
+  servo8.write(135);
+  delay(500);
+}
+
+// Функция для поворота направо
+void turnRight() {
+  servo1.write(135);
+  servo2.write(135);
+  servo3.write(45);
+  servo4.write(45);
+  servo5.write(135);
+  servo6.write(135);
+  servo7.write(45);
+  servo8.write(45);
+  delay(500);
+}
+
+// Функция для поворота налево
+void turnLeft() {
+  servo1.write(45);
+  servo2.write(45);
+  servo3.write(135);
+  servo4.write(135);
+  servo5.write(45);
+  servo6.write(45);
+  servo7.write(135);
+  servo8.write(135);
+  delay(500);
+}
+
+// Функция начальная позиция 
+void setPose() {
+  servo1.write(90);
+  servo2.write(90);
+  servo3.write(90);
+  servo4.write(90);
+  servo5.write(90);
+  servo6.write(90);
+  servo7.write(90);
+  servo8.write(90);
+}
+
+void checkButtonClick() {
+  if (moveForward == 1) {. 
+    moveForward();         // код, выполняемый, если условие1 истинно
+  } else if (moveBackward == 1) {
+     moveBackward():       // код, выполняемый, если условие2 истинно, а условие1 ложно
+  } else if (turnRight == 1) {
+      turnRight();        // код, выполняемый, если ни одно из условий не истинно
+  } else if (turnLeft == 1)  {
+     turnLeft();
+  } else {
+    setPose();
+  }
+
+}
+
+
+// Основной цикл программы
+void loop() {
+  RemoteXY_Handler ();
+
+  checkButtonClick();
+
+}
